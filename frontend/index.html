@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SplitCampus | Student Group Expense Tracker</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <div class="landing-shell">
+      <header class="landing-nav">
+        <a class="brand" href="/">SplitCampus</a>
+        <nav class="landing-nav-links">
+          <a href="#features">Features</a>
+          <a href="#use-cases">Use Cases</a>
+          <a class="btn btn-secondary" href="/pages/login.html">Login</a>
+          <a class="btn btn-primary" href="/pages/signup.html">Get Started</a>
+        </nav>
+      </header>
+
+      <main class="landing-main">
+        <section class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">Built for hostel rooms, trips, flats, and events</span>
+            <h1>Track group expenses without messy chats and manual math.</h1>
+            <p>
+              SplitCampus helps student groups create shared expense spaces, split bills
+              fairly, upload receipts, settle payments, and understand spending patterns.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" id="heroPrimaryAction" href="/pages/signup.html"
+                >Create an account</a
+              >
+              <a class="btn btn-secondary" href="/pages/login.html">Already have an account</a>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-panel">
+              <strong>Equal, exact, or percentage splits</strong>
+              <p>Handle dinner bills, flat rent, cab sharing, and custom event contributions.</p>
+            </div>
+            <div class="stat-panel">
+              <strong>Balances that stay readable</strong>
+              <p>See who owes whom, settlement history, and monthly charts for any group.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="feature-grid" id="features">
+          <article class="card feature-card">
+            <h3>Create student groups</h3>
+            <p>Organize hostel rooms, flatmates, trip crews, and event teams in one place.</p>
+          </article>
+          <article class="card feature-card">
+            <h3>Upload receipts</h3>
+            <p>Attach bill images to expenses so everyone can verify the entry quickly.</p>
+          </article>
+          <article class="card feature-card">
+            <h3>Track balances</h3>
+            <p>Get an easy-to-explain summary of total paid, total owed, and net balances.</p>
+          </article>
+          <article class="card feature-card">
+            <h3>Visual analytics</h3>
+            <p>Use charts to understand monthly spend, category trends, and member contribution.</p>
+          </article>
+        </section>
+
+        <section class="card use-case-section" id="use-cases">
+          <div>
+            <span class="eyebrow">Popular student use cases</span>
+            <h2>Where SplitCampus fits naturally</h2>
+          </div>
+          <div class="use-case-grid">
+            <div>
+              <strong>Hostel roommates</strong>
+              <p>Mess bills, snacks, Wi-Fi, and electricity contributions.</p>
+            </div>
+            <div>
+              <strong>Flatmates</strong>
+              <p>Rent, groceries, gas, and shared subscriptions.</p>
+            </div>
+            <div>
+              <strong>College trips</strong>
+              <p>Travel bookings, hotel rooms, food, and local transport.</p>
+            </div>
+            <div>
+              <strong>Event teams</strong>
+              <p>Decor, logistics, refreshment budgets, and sponsorship spending.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/js/pages/landing.js"></script>
+  </body>
+</html>

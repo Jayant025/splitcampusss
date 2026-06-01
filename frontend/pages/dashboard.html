@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | SplitCampus</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar"></aside>
+      <div class="app-main">
+        <header id="topbar" class="topbar"></header>
+        <main class="page-content stack-lg">
+          <section class="stats-grid" id="statsGrid"></section>
+          <section class="content-grid two-column">
+            <div class="card stack-md">
+              <div class="section-header">
+                <div>
+                  <h2>Active groups</h2>
+                  <p>Your current SplitCampus spaces</p>
+                </div>
+                <a class="btn btn-secondary" href="/pages/groups.html">Manage groups</a>
+              </div>
+              <div id="activeGroups"></div>
+            </div>
+            <div class="card stack-md">
+              <div class="section-header">
+                <div>
+                  <h2>Recent expenses</h2>
+                  <p>Latest entries involving you</p>
+                </div>
+              </div>
+              <div id="recentExpenses"></div>
+            </div>
+          </section>
+          <section class="card stack-md">
+            <div class="section-header">
+              <div>
+                <h2>Recent settlements</h2>
+                <p>Payments recorded across your groups</p>
+              </div>
+            </div>
+            <div id="recentSettlements"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/pages/dashboard.js"></script>
+  </body>
+</html>

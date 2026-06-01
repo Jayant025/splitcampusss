@@ -1,0 +1,9 @@
+node_modules/
+backend/.env
+backend/src/uploads/receipts/*
+backend/src/uploads/profiles/*
+backend/src/uploads/groups/*
+!backend/src/uploads/receipts/.gitkeep
+!backend/src/uploads/profiles/.gitkeep
+!backend/src/uploads/groups/.gitkeep
+

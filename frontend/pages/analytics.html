@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics | SplitCampus</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar"></aside>
+      <div class="app-main">
+        <header id="topbar" class="topbar"></header>
+        <main class="page-content stack-lg">
+          <section class="card stack-md">
+            <div class="section-header">
+              <div>
+                <h2 id="analyticsHeading">Monthly analytics</h2>
+                <p>Understand spend patterns, categories, and contribution trends</p>
+              </div>
+              <div class="year-filter">
+                <label for="yearSelect">Year</label>
+                <select id="yearSelect"></select>
+              </div>
+            </div>
+            <div id="analyticsSummary" class="stats-grid"></div>
+          </section>
+
+          <section class="content-grid analytics-grid">
+            <article class="card stack-md">
+              <h3>Monthly total spend</h3>
+              <canvas id="monthlyChart"></canvas>
+            </article>
+            <article class="card stack-md">
+              <h3>Category-wise spend</h3>
+              <canvas id="categoryChart"></canvas>
+            </article>
+            <article class="card stack-md">
+              <h3>Member contribution</h3>
+              <canvas id="memberChart"></canvas>
+            </article>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/pages/analytics.js"></script>
+  </body>
+</html>

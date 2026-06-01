@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup | SplitCampus</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body class="auth-body">
+    <main class="auth-shell">
+      <section class="auth-copy">
+        <a class="brand" href="/">SplitCampus</a>
+        <h1>Create your account</h1>
+        <p>Start managing hostel, trip, flat, and event expenses with a clear shared flow.</p>
+      </section>
+      <section class="auth-card card">
+        <form id="signupForm" class="stack-md">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Your full name" required />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Minimum 6 characters" required />
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Create account</button>
+        </form>
+        <p class="auth-footer">
+          Already have an account?
+          <a href="/pages/login.html">Login</a>
+        </p>
+      </section>
+    </main>
+
+    <script type="module" src="/js/pages/signup.js"></script>
+  </body>
+</html>

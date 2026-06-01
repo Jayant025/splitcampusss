@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settlements | SplitCampus</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar"></aside>
+      <div class="app-main">
+        <header id="topbar" class="topbar"></header>
+        <main class="page-content stack-lg">
+          <section id="settlementGroupInfo" class="card"></section>
+
+          <section class="content-grid two-column">
+            <article class="card stack-md">
+              <div class="section-header">
+                <div>
+                  <h2>Record settlement</h2>
+                  <p>Track full or partial payments between group members</p>
+                </div>
+              </div>
+              <form id="settlementForm" class="stack-md">
+                <div>
+                  <label for="paidBy">Paid by</label>
+                  <select id="paidBy" name="paidBy" required></select>
+                </div>
+                <div>
+                  <label for="receivedBy">Received by</label>
+                  <select id="receivedBy" name="receivedBy" required></select>
+                </div>
+                <div>
+                  <label for="amount">Amount</label>
+                  <input id="amount" name="amount" type="number" min="0.01" step="0.01" required />
+                </div>
+                <div>
+                  <label for="date">Settlement date</label>
+                  <input id="date" name="date" type="date" required />
+                </div>
+                <div>
+                  <label for="note">Note</label>
+                  <textarea id="note" name="note" rows="3" placeholder="Optional note"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Save settlement</button>
+              </form>
+            </article>
+
+            <article class="card stack-md">
+              <div class="section-header">
+                <div>
+                  <h2>Recommended settlement ideas</h2>
+                  <p>Quick suggestions based on the current group balance</p>
+                </div>
+              </div>
+              <div id="suggestedSettlements"></div>
+            </article>
+          </section>
+
+          <section class="card stack-md">
+            <div class="section-header">
+              <div>
+                <h2>Settlement history</h2>
+                <p>See who paid whom, when, and why</p>
+              </div>
+            </div>
+            <div id="settlementHistory"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/pages/settlements.js"></script>
+  </body>
+</html>

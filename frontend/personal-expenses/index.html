@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Expenses | SplitCampus</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar"></aside>
+      <div class="app-main">
+        <header id="topbar" class="topbar"></header>
+        <main class="page-content stack-lg">
+          <section class="stats-grid" id="personalExpenseStats"></section>
+
+          <section class="content-grid two-column">
+            <article class="card stack-md">
+              <div class="section-header">
+                <div>
+                  <h2 id="personalExpenseFormHeading">Add personal expense</h2>
+                  <p>Track your own monthly spending separately from group expenses</p>
+                </div>
+                <button class="btn btn-ghost hidden" id="cancelEditButton" type="button">Cancel edit</button>
+              </div>
+              <form id="personalExpenseForm" class="stack-md">
+                <div>
+                  <label for="title">Expense title</label>
+                  <input id="title" name="title" type="text" required />
+                </div>
+                <div class="content-grid two-column">
+                  <div>
+                    <label for="amount">Amount</label>
+                    <input id="amount" name="amount" type="number" min="0.01" step="0.01" required />
+                  </div>
+                  <div>
+                    <label for="date">Date</label>
+                    <input id="date" name="date" type="date" required />
+                  </div>
+                </div>
+                <div>
+                  <label for="category">Category</label>
+                  <select id="category" name="category" required>
+                    <option value="food">Food</option>
+                    <option value="transport">Transport</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="bills">Bills</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="health">Health</option>
+                    <option value="education">Education</option>
+                    <option value="miscellaneous">Miscellaneous</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="note">Optional note</label>
+                  <textarea id="note" name="note" rows="4" placeholder="Optional note about this expense"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Save personal expense</button>
+              </form>
+            </article>
+
+            <article class="card stack-md">
+              <div class="section-header">
+                <div>
+                  <h2>Category-wise monthly totals</h2>
+                  <p>Quick summary of where your selected month spending is going</p>
+                </div>
+              </div>
+              <div id="categoryTotals"></div>
+            </article>
+          </section>
+
+          <section class="card stack-md">
+            <div class="section-header">
+              <div>
+                <h2>Filters and history</h2>
+                <p>Filter by month and category, then review or edit your expense history</p>
+              </div>
+            </div>
+            <form id="personalExpenseFilters" class="filter-grid personal-filter-grid">
+              <input id="monthFilter" name="month" type="month" />
+              <select id="categoryFilter" name="category">
+                <option value="">All categories</option>
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="shopping">Shopping</option>
+                <option value="bills">Bills</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="health">Health</option>
+                <option value="education">Education</option>
+                <option value="miscellaneous">Miscellaneous</option>
+              </select>
+              <button class="btn btn-secondary" type="submit">Apply filters</button>
+            </form>
+            <div id="personalExpenseHistory"></div>
+          </section>
+
+          <section class="card stack-md">
+            <div class="section-header">
+              <div>
+                <h2>Monthly spending analytics</h2>
+                <p>Simple money-manager style chart for your selected year</p>
+              </div>
+              <div class="year-filter">
+                <label for="personalExpenseYear">Year</label>
+                <select id="personalExpenseYear"></select>
+              </div>
+            </div>
+            <canvas id="personalExpenseChart"></canvas>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/personal-expenses/index.js"></script>
+  </body>
+</html>

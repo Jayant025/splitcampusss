@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Expense | SplitCampus</title>
+    <script src="/js/utils/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body class="app-body">
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar"></aside>
+      <div class="app-main">
+        <header id="topbar" class="topbar"></header>
+        <main class="page-content">
+          <section class="card stack-lg">
+            <div class="section-header">
+              <div>
+                <h2 id="expensePageHeading">Add expense</h2>
+                <p id="expensePageSubheading">Create a new expense and choose how it will be split</p>
+              </div>
+            </div>
+            <form id="expenseForm" class="stack-lg">
+              <div class="content-grid two-column">
+                <div class="stack-md">
+                  <div>
+                    <label for="title">Expense title</label>
+                    <input id="title" name="title" type="text" required />
+                  </div>
+                  <div>
+                    <label for="amount">Amount</label>
+                    <input id="amount" name="amount" type="number" min="0.01" step="0.01" required />
+                  </div>
+                  <div>
+                    <label for="date">Date</label>
+                    <input id="date" name="date" type="date" required />
+                  </div>
+                  <div>
+                    <label for="paidBy">Paid by</label>
+                    <select id="paidBy" name="paidBy" required></select>
+                  </div>
+                </div>
+
+                <div class="stack-md">
+                  <div>
+                    <label for="categorySelect">Category</label>
+                    <select id="categorySelect" name="category" required>
+                      <option value="food">Food</option>
+                      <option value="rent">Rent</option>
+                      <option value="wifi">Wi-Fi</option>
+                      <option value="electricity">Electricity</option>
+                      <option value="grocery">Grocery</option>
+                      <option value="travel">Travel</option>
+                      <option value="miscellaneous">Miscellaneous</option>
+                      <option value="custom">Custom</option>
+                    </select>
+                  </div>
+                  <div id="customCategoryWrap" class="hidden">
+                    <label for="customCategory">Custom category name</label>
+                    <input id="customCategory" name="customCategory" type="text" />
+                  </div>
+                  <div>
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4"></textarea>
+                  </div>
+                  <div>
+                    <label for="receiptImage">Receipt image</label>
+                    <input id="receiptImage" name="receiptImage" type="file" accept="image/*" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="card soft-card stack-md">
+                <div class="section-header">
+                  <div>
+                    <h3>Split details</h3>
+                    <p>Choose equal, exact, or percentage split and select the members involved</p>
+                  </div>
+                </div>
+                <div>
+                  <label for="splitType">Split type</label>
+                  <select id="splitType" name="splitType">
+                    <option value="equal">Equal</option>
+                    <option value="exact">Exact amount</option>
+                    <option value="percentage">Percentage</option>
+                  </select>
+                </div>
+                <div id="splitMembersContainer" class="split-members-grid"></div>
+                <div id="splitSummary"></div>
+              </div>
+
+              <div id="receiptPreview"></div>
+              <div class="action-row">
+                <button class="btn btn-primary" type="submit">Save expense</button>
+                <a class="btn btn-ghost" id="cancelExpenseLink" href="/pages/groups.html">Cancel</a>
+              </div>
+            </form>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/pages/addExpense.js"></script>
+  </body>
+</html>
