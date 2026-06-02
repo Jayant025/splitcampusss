@@ -43,9 +43,12 @@ const startServer = async () => {
     process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
   } catch (error) {
-    console.error("Failed to start server:", error.message);
-    process.exit(1);
+    console.error("Failed to start server:", error.message || error);
+    process.exitCode = 1;
   }
 };
+
+console.log("Bootstrapping SplitCampus backend application...");
+
 
 startServer();
