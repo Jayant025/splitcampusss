@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+
 :root {
   color-scheme: light;
   --bg: #eef4fb;
@@ -175,6 +177,17 @@ button,
     color 0.25s ease,
     border-color 0.25s ease,
     box-shadow 0.25s ease;
+}
+
+/* Accessibility Focus Ring States */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--focus-ring);
 }
 
 a {
@@ -847,6 +860,28 @@ tbody tr:nth-child(even) {
   z-index: 9999;
 }
 
+@keyframes toastSlideIn {
+  from {
+    transform: translateY(40px) scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toastFadeOut {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px) scale(0.9);
+    opacity: 0;
+  }
+}
+
 .toast {
   min-width: 260px;
   max-width: 360px;
@@ -854,6 +889,11 @@ tbody tr:nth-child(even) {
   border-radius: 14px;
   color: var(--text-inverse);
   box-shadow: var(--shadow-lg);
+  animation: toastSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+.toast.hide {
+  animation: toastFadeOut 0.25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .toast.success {
@@ -866,6 +906,15 @@ tbody tr:nth-child(even) {
 
 .toast.info {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+}
+
+.doodle-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  color: var(--accent);
+  display: inline-block;
+  transform: rotate(-3deg);
+  line-height: 1;
 }
 
 .pill .profile-avatar,

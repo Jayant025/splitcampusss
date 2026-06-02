@@ -42,11 +42,16 @@ export const showToast = (message, type = "success") => {
   const root = ensureToastRoot();
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
+  toast.setAttribute("role", "alert");
+  toast.setAttribute("aria-live", "polite");
   toast.textContent = message;
   root.appendChild(toast);
 
   window.setTimeout(() => {
-    toast.remove();
-  }, 3200);
+    toast.classList.add("hide");
+    window.setTimeout(() => {
+      toast.remove();
+    }, 250); // Matches the 0.25s animation duration in CSS
+  }, 3000);
 };
 

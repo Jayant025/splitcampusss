@@ -115,8 +115,10 @@ const getExpenses = asyncHandler(async (req, res) => {
   };
 
   if (req.query.search) {
+    // Escape special regex characters to prevent ReDoS attacks
+    const escapedSearch = req.query.search.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
     filters.title = {
-      $regex: req.query.search,
+      $regex: escapedSearch,
       $options: "i"
     };
   }

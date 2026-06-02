@@ -88,7 +88,7 @@ if (requireAuth()) {
     `;
 
     document.getElementById("leaveGroupButton")?.addEventListener("click", async () => {
-      const confirmed = window.confirm("Leave this group?");
+      const confirmed = window.confirm("Are you sure you want to leave this group? Make sure you have settled all your balances first! 🚪");
 
       if (!confirmed) {
         return;
@@ -147,7 +147,7 @@ if (requireAuth()) {
     membersList.querySelectorAll(".remove-member-button").forEach((button) => {
       button.addEventListener("click", async () => {
         const userId = button.dataset.userId;
-        const confirmed = window.confirm("Remove this member from the group?");
+        const confirmed = window.confirm("Kick this roommate out of the group? Make sure they don't owe you any money first! 🥾");
 
         if (!confirmed) {
           return;
@@ -199,8 +199,8 @@ if (requireAuth()) {
     if (!groupData.simplifiedDebts.length) {
       renderState(
         debtSuggestions,
-        "No pending debts",
-        "The group is currently balanced based on existing expenses and settlements."
+        "Friendships are balanced! 🤝",
+        "No one owes anyone anything in this group right now. Outstanding!"
       );
       return;
     }
@@ -223,7 +223,7 @@ if (requireAuth()) {
 
   const renderActivity = () => {
     if (!groupData.recentActivity.length) {
-      renderState(activityList, "No recent activity", "Activity will show up when members use the group.");
+      renderState(activityList, "Absolute silence... 🍃", "Nothing has happened recently. Someone needs to buy the first Maggi! 🍜");
       return;
     }
 
@@ -247,8 +247,8 @@ if (requireAuth()) {
     if (!expenses.length) {
       renderState(
         expensesList,
-        "No expenses found",
-        "Try changing the filters or add your first expense to this group."
+        "No expenses found! 📝",
+        "Try changing the filters, or add the first bill to start splitting!"
       );
       return;
     }
@@ -313,7 +313,7 @@ if (requireAuth()) {
     expensesList.querySelectorAll(".delete-expense-button").forEach((button) => {
       button.addEventListener("click", async () => {
         const expenseId = button.dataset.expenseId;
-        const confirmed = window.confirm("Delete this expense?");
+        const confirmed = window.confirm("Are you sure you want to delete this expense? This action cannot be undone and might upset your roommates! 😉");
 
         if (!confirmed) {
           return;

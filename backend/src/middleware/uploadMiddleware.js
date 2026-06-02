@@ -26,12 +26,17 @@ const createUploader = (folderName) => {
   });
 
   const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image/")) {
+    const allowedExtensions = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+    const ext = path.extname(file.originalname).toLowerCase();
+    const isMimetypeImage = file.mimetype.startsWith("image/");
+    const isExtensionAllowed = allowedExtensions.includes(ext);
+
+    if (isMimetypeImage && isExtensionAllowed) {
       cb(null, true);
       return;
     }
 
-    cb(new AppError("Only image uploads are allowed.", 400), false);
+    cb(new AppError("Only standard image uploads (.png, .jpg, .jpeg, .webp, .gif) are allowed.", 400), false);
   };
 
   return multer({

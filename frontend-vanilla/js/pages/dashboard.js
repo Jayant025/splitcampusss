@@ -20,19 +20,19 @@ if (requireAuth()) {
   const renderStats = (stats) => {
     statsGrid.innerHTML = `
       <article class="card stat-card">
-        <span>Total paid</span>
+        <span>Cash Flow Out 💸</span>
         <strong class="value">${formatCurrency(stats.totalPaid)}</strong>
       </article>
       <article class="card stat-card">
-        <span>You owe</span>
+        <span>Your Tab 📉</span>
         <strong class="value">${formatCurrency(stats.totalUserOwes)}</strong>
       </article>
       <article class="card stat-card">
-        <span>Others owe you</span>
+        <span>Due To You 📈</span>
         <strong class="value">${formatCurrency(stats.totalOthersOweUser)}</strong>
       </article>
       <article class="card stat-card">
-        <span>Active groups</span>
+        <span>My Squads 🎒</span>
         <strong class="value">${stats.activeGroups}</strong>
       </article>
     `;
@@ -42,8 +42,8 @@ if (requireAuth()) {
     if (!groups.length) {
       renderState(
         activeGroups,
-        "No groups yet",
-        "Create your first group to start tracking shared expenses."
+        "Squadless! 🎒",
+        "Create your first group to start splitting rent, food, cab fares, and weekend trips."
       );
       return;
     }
@@ -71,7 +71,7 @@ if (requireAuth()) {
 
   const renderExpenseList = (container, expenses) => {
     if (!expenses.length) {
-      renderState(container, "No recent expenses", "Your recent expense activity will show up here.");
+      renderState(container, "Expense ledger is blank 📝", "No activity yet. Someone needs to buy the first Maggi! 🍜");
       return;
     }
 
@@ -105,8 +105,8 @@ if (requireAuth()) {
     if (!settlements.length) {
       renderState(
         recentSettlements,
-        "No recent settlements",
-        "Payments you record inside groups will appear here."
+        "No settlements yet 🤝",
+        "Friendships are balanced! Any settlements you record in your squads will show up here."
       );
       return;
     }
@@ -139,7 +139,7 @@ if (requireAuth()) {
 
   const loadDashboard = async () => {
     try {
-      renderState(statsGrid, "Loading dashboard", "Fetching your latest financial overview.");
+      renderState(statsGrid, "Hanging tight... 🎒", "Rummaging through your hostel bills!");
       const data = await getPersonalDashboard();
       renderStats(data.stats);
       renderGroups(data.groups);
@@ -147,7 +147,7 @@ if (requireAuth()) {
       renderSettlementList(data.recentSettlements);
     } catch (error) {
       showToast(error.message, "error");
-      renderState(statsGrid, "Could not load dashboard", "Please refresh and try again.");
+      renderState(statsGrid, "Could not load dashboard 💔", "Check your connection and try reloading.");
       renderState(activeGroups, "Groups unavailable", "The group list could not be loaded.");
       renderState(recentExpenses, "Expenses unavailable", "Recent expenses could not be loaded.");
       renderState(

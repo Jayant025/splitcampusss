@@ -14,16 +14,35 @@ form?.addEventListener("submit", async (event) => {
 
   const submitButton = form.querySelector('button[type="submit"]');
   const formData = new FormData(form);
+  const email = String(formData.get("email") || "").trim();
+  const password = String(formData.get("password") || "");
+
+  // Client-side validations
+  if (!email) {
+    showToast("Please enter your email address.", "error");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showToast("Please enter a valid email address.", "error");
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast("Password must be at least 6 characters long.", "error");
+    return;
+  }
 
   try {
     setButtonLoading(submitButton, true, "Logging in...");
     const data = await loginUser({
-      email: formData.get("email"),
-      password: formData.get("password")
+      email,
+      password
     });
 
     saveSession(data);
-    showToast("Login successful.");
+    showToast("Welcome back! Login successful. 🎉");
     window.location.href = "/pages/dashboard.html";
   } catch (error) {
     showToast(error.message, "error");

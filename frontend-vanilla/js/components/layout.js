@@ -37,6 +37,16 @@ const getAvatarMarkup = (user) => {
   return `<div class="profile-avatar avatar-fallback">${escapeHtml(getInitials(user?.name || "U"))}</div>`;
 };
 
+const campusTips = [
+  "Split Maggi fairly. Roommate friendships depend on it! 🍜",
+  "Screenshots of receipts disappear. Shared expense records don't! 📸",
+  "Settle cab rides before placement season starts. 🚕",
+  "Cleaning duty ignored? Future roommate arguments detected! 🧹",
+  "Roommate rule #1: If you pay for the tea, it's tea. If you pay for dinner, log it here. ☕",
+  "Keep your receipt photos clear. No one likes a blurry check. 📸",
+  "Don't worry, personal expenses are kept 100% private from your groups. 😉"
+];
+
 export const renderAppLayout = ({
   title,
   subtitle = "",
@@ -48,6 +58,7 @@ export const renderAppLayout = ({
   const topbar = document.getElementById("topbar");
 
   if (sidebar) {
+    const randomTip = campusTips[Math.floor(Math.random() * campusTips.length)];
     sidebar.innerHTML = `
       <div class="sidebar-panel">
         <a class="brand" href="/pages/dashboard.html">SplitCampus</a>
@@ -63,10 +74,8 @@ export const renderAppLayout = ({
             .join("")}
         </nav>
         <div class="card soft-card">
-          <strong>Student-friendly flow</strong>
-          <p class="muted-text">
-            Manage both shared group spending and your own monthly personal expenses from one app.
-          </p>
+          <strong>Campus Pro-Tip 💡</strong>
+          <p class="muted-text">${escapeHtml(randomTip)}</p>
         </div>
         <div class="sidebar-footer">
           <button class="btn btn-ghost btn-block" id="logoutButtonSidebar" type="button">Logout</button>

@@ -14,17 +14,42 @@ form?.addEventListener("submit", async (event) => {
 
   const submitButton = form.querySelector('button[type="submit"]');
   const formData = new FormData(form);
+  const name = String(formData.get("name") || "").trim();
+  const email = String(formData.get("email") || "").trim();
+  const password = String(formData.get("password") || "");
+
+  // Client-side validations
+  if (name.length < 2) {
+    showToast("Please enter your name (minimum 2 characters).", "error");
+    return;
+  }
+
+  if (!email) {
+    showToast("Please enter your email address.", "error");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showToast("Please enter a valid email address.", "error");
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast("Password must be at least 6 characters long.", "error");
+    return;
+  }
 
   try {
     setButtonLoading(submitButton, true, "Creating account...");
     const data = await signupUser({
-      name: formData.get("name"),
-      email: formData.get("email"),
-      password: formData.get("password")
+      name,
+      email,
+      password
     });
 
     saveSession(data);
-    showToast("Account created successfully.");
+    showToast("Welcome to SplitCampus! Account created. 🎉");
     window.location.href = "/pages/dashboard.html";
   } catch (error) {
     showToast(error.message, "error");

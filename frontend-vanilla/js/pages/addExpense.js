@@ -87,7 +87,7 @@ if (requireAuth()) {
     const selectedMembers = getSelectedMembers();
 
     if (!selectedMembers.length) {
-      renderState(splitSummary, "No members selected", "Choose at least one member for the split.");
+      renderState(splitSummary, "Splitting with ghosts? 👻", "Choose at least one roommate to split this expense with.");
       return;
     }
 
@@ -235,6 +235,37 @@ if (requireAuth()) {
     const submitButton = form.querySelector('button[type="submit"]');
     const formData = new FormData(form);
 
+    const totalAmount = Number(amountInput.value) || 0;
+    const selectedMembers = getSelectedMembers();
+
+    if (totalAmount <= 0) {
+      showToast("Please enter an amount greater than 0.", "error");
+      return;
+    }
+
+    if (!selectedMembers.length) {
+      showToast("Please select at least one roommate for this expense split.", "error");
+      return;
+    }
+
+    // Exact split validation
+    if (splitTypeSelect.value === "exact") {
+      const exactTotal = selectedMembers.reduce((sum, member) => sum + (Number(member.amount) || 0), 0);
+      if (Math.abs(exactTotal - totalAmount) > 0.01) {
+        showToast(`Sum of exact splits (${formatCurrency(exactTotal)}) must equal the total expense amount (${formatCurrency(totalAmount)}).`, "error");
+        return;
+      }
+    }
+
+    // Percentage split validation
+    if (splitTypeSelect.value === "percentage") {
+      const percentageTotal = selectedMembers.reduce((sum, member) => sum + (Number(member.percentage) || 0), 0);
+      if (Math.abs(percentageTotal - 100) > 0.01) {
+        showToast(`Sum of percentage splits (${percentageTotal}%) must equal exactly 100%.`, "error");
+        return;
+      }
+    }
+
     formData.set("splitMembers", JSON.stringify(buildSplitPayload()));
 
     try {
@@ -242,10 +273,10 @@ if (requireAuth()) {
 
       if (expenseId) {
         await updateExpense(groupId, expenseId, formData);
-        showToast("Expense updated successfully.");
+        showToast("Expense updated successfully. 🎉");
       } else {
         await createExpense(groupId, formData);
-        showToast("Expense added successfully.");
+        showToast("Expense added successfully. 💸");
       }
 
       window.location.href = `/pages/single-group.html?group=${groupId}`;

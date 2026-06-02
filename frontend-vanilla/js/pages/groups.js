@@ -19,8 +19,8 @@ if (requireAuth()) {
     if (!groups.length) {
       renderState(
         groupsList,
-        "No groups available",
-        "Create a group or join one with an invite code to get started."
+        "Squadless! 🎒",
+        "Create your own shared expense group or paste an invite code to join one."
       );
       return;
     }
@@ -64,7 +64,7 @@ if (requireAuth()) {
       renderGroups(data.groups);
     } catch (error) {
       showToast(error.message, "error");
-      renderState(groupsList, "Groups unavailable", "Please try loading the groups again.");
+      renderState(groupsList, "Failed to load squads 💔", "Something went wrong. Let's try reloading to get your groups back.");
     }
   };
 

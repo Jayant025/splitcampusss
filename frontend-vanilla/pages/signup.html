@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | SplitCampus</title>
+    <title>Signup | SplitCampus</title>
     <script src="/js/utils/theme-init.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,28 +17,32 @@
     <main class="auth-shell">
       <section class="auth-copy">
         <a class="brand" href="/">SplitCampus</a>
-        <h1>Welcome back</h1>
-        <p>Log in to view your groups, expenses, balances, and settlements.</p>
+        <h1>Create your account</h1>
+        <p>Start managing hostel, trip, flat, and event expenses. Built for roommates who are tired of fighting over ₹10 cab shares! 🚖</p>
       </section>
       <section class="auth-card card">
-        <form id="loginForm" class="stack-md">
+        <form id="signupForm" class="stack-md">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Your full name" autocomplete="name" required />
+          </div>
           <div>
             <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
           </div>
           <div>
             <label for="password">Password</label>
-            <input id="password" name="password" type="password" placeholder="Enter password" required />
+            <input id="password" name="password" type="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
           </div>
-          <button class="btn btn-primary btn-block" type="submit">Login</button>
+          <button class="btn btn-primary btn-block" type="submit">Create account</button>
         </form>
         <p class="auth-footer">
-          New here?
-          <a href="/pages/signup.html">Create an account</a>
+          Already have an account?
+          <a href="/pages/login.html">Login</a>
         </p>
       </section>
     </main>
 
-    <script type="module" src="/js/pages/login.js"></script>
+    <script type="module" src="/js/pages/signup.js"></script>
   </body>
 </html>
