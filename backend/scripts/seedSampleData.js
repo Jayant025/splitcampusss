@@ -11,7 +11,7 @@ const Group = require("../src/models/Group");
 const PersonalExpense = require("../src/models/PersonalExpense");
 const Settlement = require("../src/models/Settlement");
 const User = require("../src/models/User");
-
+const hii = 20;
 const seed = async () => {
   try {
     await connectDB();
