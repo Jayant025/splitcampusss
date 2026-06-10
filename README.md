@@ -1,60 +1,61 @@
 # SplitCampus
 
-SplitCampus is a student-focused group expense tracker built with a clean MERN-style stack:
-- Frontend: HTML, CSS, vanilla JavaScript
-- Backend: Node.js, Express
-- Database: MongoDB, Mongoose
-- Authentication: JWT
-- Charts: Chart.js
-- Uploads: Multer
+SplitCampus is a premium student-focused group expense tracker built with a modern MERN stack:
+- **Frontend**: React 18 SPA, Vite, React Router, Lucide Icons, Custom Chart dashboards
+- **Backend**: Node.js, Express, Mongoose
+- **Database**: MongoDB Atlas (or local MongoDB)
+- **Authentication**: JWT (JSON Web Tokens) with Secure HTTP Header context
+- **Styling**: Native Vanilla CSS with Zinc Dark/Light design tokens (Zero Tailwind/shadcn-ui dependencies)
+- **Uploads**: Multer (Receipt image handling)
 
-It is designed for hostel roommates, flatmates, college trips, and event groups where members need a simple but professional way to create groups, add expenses, split bills, track balances, record settlements, upload receipts, and view analytics.
+Designed for roommates, travel groups, flats, and college clubs, SplitCampus offers a high-end, responsive, SaaS-style user experience inspired by leading platforms like Linear and Vercel.
+
+---
 
 ## Core Features
 
-### Authentication and profile
-- Signup, login, logout
-- JWT-based protected routes
-- Secure password hashing with `bcryptjs`
-- Profile page with name, email, photo update, and password change
+### 🔐 Authentication & Session Security
+- Secure signup, login, and logout.
+- JWT-based protected route wrappers on the frontend and middleware protection on the backend.
+- Password encryption using `bcryptjs`.
+- Profile dashboard allowing users to update their name, email, avatar/photo, and password.
 
-### Group management
-- Create groups with type and optional image
-- Invite using email or join with invite code
-- Admin-controlled member management
-- Leave group support with admin handover
+### 🎒 Squad (Group) Management
+- Create squads with dedicated names, categories, and optional cover images.
+- Shareable invitation codes for instant squad onboarding.
+- Dynamic member list showing user roles (Admin vs. Member).
+- **Squad Deletion (Admin Only)**: Squad leaders can permanently delete a squad. Doing so triggers a cascade delete, removing all associated expenses, settlements, and activity logs to maintain database integrity.
+- **Leave Group**: Members can leave a group freely (admin roles are automatically handed over to the next member if the leader leaves).
 
-### Expense workflow
-- Add expense with title, amount, date, description, category, payer, and receipt
-- Split by equal, exact amount, or percentage
-- Support for selected members only
-- Expense search, filter, sort, edit, and delete
-- Default categories plus optional custom category
+### 💸 Group Expense Workflow
+- Record shared expenses with title, amount, date, optional note description, category, and receipt uploads.
+- **Flexible Split Configurations**:
+  - **Equal Division**: Splits the total equally among selected group members.
+  - **Exact Amounts**: Splits by specifying precise rupee amounts per member.
+  - **Percentage Share**: Splits by setting percentage coefficients (must total 100%).
+- Select specific squad members to participate in individual expenses.
+- Real-time ledger lookup: Search, filter by category or member, sort (highest, lowest, latest, oldest), edit, and delete entries.
 
-### Personal monthly expenses module
-- Separate personal money-manager page
-- Add, edit, and delete individual expenses
-- Track current month total and selected month total
-- Filter personal history by month and category
-- Category-wise monthly totals
-- Monthly spending chart for yearly analytics
+### ⚖️ Roommate Balances & Cash Settlements
+- Real-time calculation of total paid and total owed by each member.
+- **Simplified Debts Engine**: Recommends the mathematically optimal, minimum-transaction "who owes whom" flow to clear outstanding squad balances.
+- Partial and full cash settlement logging.
+- Settlement history registry containing historical transaction records.
 
-### Balances and settlements
-- Total paid by each member
-- Total owed by each member
-- Net balance calculation
-- Simplified "who owes whom" suggestions
-- Partial and full settlement recording
-- Settlement history page
+### 📊 Personal Money Manager (Separate Module)
+- Fully isolated personal expense tracker separate from shared group ledgers.
+- Add, edit, and delete personal monthly bills.
+- Real-time calculations of current month vs. previous month spending.
+- Custom dropdown category selectors and private note fields (mapped via a fallback string to preserve database schema integrity).
+- Grouped category summaries and interactive analytics charts.
 
-### Dashboards and analytics
-- Personal dashboard for current user
-- Group dashboard with members, activity, balances, and expenses
-- Monthly total spend
-- Category-wise spend
-- Member-wise contribution
-- Highest spending month
-- Chart.js analytics page
+### 📈 SaaS Dashboards & Analytics Panels
+- Dynamic time-of-day greetings (e.g. *"Good Morning, Jayant 👋"*) customized by user details.
+- Vercel-style metrics cards displaying total balances, active squads, and monthly expenditures.
+- Live group activity log timeline.
+- Custom Chart analytics tracking monthly category expenditures and individual member contributions.
+
+---
 
 ## Project Structure
 
@@ -64,184 +65,136 @@ SplitCampus/
 │   ├── package.json
 │   ├── .env.example
 │   ├── scripts/
-│   │   └── seedSampleData.js
+│   │   └── seedSampleData.js (Sample database generator)
 │   └── src/
-│       ├── app.js
-│       ├── server.js
-│       ├── config/
-│       ├── controllers/
-│       ├── middleware/
-│       ├── models/
-│       ├── routes/
-│       ├── services/
-│       ├── uploads/
-│       └── utils/
+│       ├── app.js            (App bootstrap and middleware configurations)
+│       ├── server.js         (Server listener)
+│       ├── config/           (Database connection settings)
+│       ├── controllers/      (Route business logic handlers)
+│       ├── middleware/       (Authentication & file upload filters)
+│       ├── models/           (Mongoose schemas: User, Group, Expense, PersonalExpense, etc.)
+│       ├── routes/           (API routes: auth, group, settlement, personalExpense, etc.)
+│       ├── services/         (Balance calculation & action activity logging)
+│       ├── uploads/          (Locally saved receipt image files)
+│       └── utils/            (AppError classes, helpers, and validation)
 ├── frontend/
-│   ├── index.html
-│   ├── css/
-│   │   └── main.css
-│   ├── pages/
-│   └── js/
-│       ├── api/
-│       ├── components/
-│       ├── pages/
-│       └── utils/
+│   ├── package.json
+│   ├── index.html            (SPA mount point)
+│   ├── vite.config.js        (Dev port configuration and backend proxies)
+│   └── src/
+│       ├── main.jsx          (Vite entrypoint)
+│       ├── App.jsx           (Routes registry & layout wrapper)
+│       ├── index.css         (Custom CSS Design system and Zinc design tokens)
+│       ├── api/              (Base HTTP client and api endpoints)
+│       ├── components/       (Reusable layouts, models, modal forms)
+│       ├── context/          (AuthContext for session state propagation)
+│       ├── pages/            (Dashboard, Groups, SingleGroup, PersonalExpenses, Profile, Login, Signup)
+│       └── utils/            (Currency formatting & date time converters)
 └── README.md
 ```
 
-## Database Models
+---
 
-- `User`
-  Name, email, hashed password, profile photo
-- `Group`
-  Group info, invite code, admin/member structure, optional image
-- `Expense`
-  Expense details, payer, category, receipt path, split type, split member array
-- `PersonalExpense`
-  User-owned personal expenses kept fully separate from shared group expenses
-- `Settlement`
-  Payment records between members
-- `Activity`
-  Recent group actions for dashboard timeline
+## Database Schemas (Mongoose)
+
+- **`User`**: Profile name, email, encrypted password, and uploaded avatar path.
+- **`Group`**: Name, description, type, cover image, invite code, creator ID, and members array (embedded with roles & join dates).
+- **`Expense`**: Title, total amount, date, note description, category tag, payer ID, receipt path, split style (equal/exact/percentage), and split members details.
+- **`PersonalExpense`**: Isolated user expenses containing amount, title, category, date, and description.
+- **`Settlement`**: Registry of payments cleared between roommates (payer ID, receiver ID, amount, and date).
+- **`Activity`**: Log registry tracking actions performed in a group (joins, expense additions, updates) shown on the squad timeline.
+
+---
 
 ## REST API Summary
 
-### Auth
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
+### Authentication & Profiles
+- `POST /api/auth/signup` - Register a new user
+- `POST /api/auth/login` - Authenticate user & receive session token
+- `POST /api/auth/logout` - Clear user session token
+- `GET /api/auth/me` - Fetch authenticated user profile details
 
-### User
-- `GET /api/users/profile`
-- `PUT /api/users/profile`
-- `PUT /api/users/password`
+### User Settings
+- `GET /api/users/profile` - Fetch current user information
+- `PUT /api/users/profile` - Edit user avatar and profile details
+- `PUT /api/users/password` - Change secure password
 
-### Groups
-- `GET /api/groups`
-- `POST /api/groups`
-- `POST /api/groups/join`
-- `GET /api/groups/:groupId`
-- `PUT /api/groups/:groupId`
-- `GET /api/groups/:groupId/dashboard`
-- `GET /api/groups/:groupId/balances`
-- `POST /api/groups/:groupId/members`
-- `DELETE /api/groups/:groupId/members/:userId`
-- `POST /api/groups/:groupId/leave`
+### Squad (Group) Management
+- `GET /api/groups` - Retrieve all squads current user is member of
+- `POST /api/groups` - Create a new squad (creator is set as Admin)
+- `POST /api/groups/join` - Join an existing squad using an invite code
+- `GET /api/groups/:groupId` - Retrieve squad metadata
+- `PUT /api/groups/:groupId` - Update squad metadata (Admin only)
+- `DELETE /api/groups/:groupId` - Permanently delete a squad, cascading to purge associated ledger items (Admin only)
+- `GET /api/groups/:groupId/dashboard` - Fetch squad overview (balances, timeline logs, members)
+- `GET /api/groups/:groupId/balances` - Fetch calculated squad balances and debt suggestions
+- `POST /api/groups/:groupId/members` - Invite a user to the squad by email (Admin only)
+- `DELETE /api/groups/:groupId/members/:userId` - Kick a member out of the squad (Admin only)
+- `POST /api/groups/:groupId/leave` - Leave the squad
 
-### Expenses
-- `GET /api/groups/:groupId/expenses`
-- `POST /api/groups/:groupId/expenses`
-- `GET /api/groups/:groupId/expenses/:expenseId`
-- `PUT /api/groups/:groupId/expenses/:expenseId`
-- `DELETE /api/groups/:groupId/expenses/:expenseId`
+### Group Expenses
+- `GET /api/groups/:groupId/expenses` - Retrieve all expenses in a squad (supports search, sort, filter)
+- `POST /api/groups/:groupId/expenses` - Create a new group expense (handles receipt uploads)
+- `GET /api/groups/:groupId/expenses/:expenseId` - Fetch details for a specific group expense
+- `PUT /api/groups/:groupId/expenses/:expenseId` - Update an existing group expense
+- `DELETE /api/groups/:groupId/expenses/:expenseId` - Delete an expense and recalculate group balances
 
-### Settlements
-- `GET /api/groups/:groupId/settlements`
-- `POST /api/groups/:groupId/settlements`
+### Cash Settlements
+- `GET /api/groups/:groupId/settlements` - Retrieve historical settlement logs
+- `POST /api/groups/:groupId/settlements` - Log a new payment between roommates
 
-### Dashboard and analytics
-- `GET /api/dashboard/personal`
-- `GET /api/groups/:groupId/analytics/monthly`
+### Personal Ledger Module
+- `GET /api/personal-expenses` - Retrieve user's personal expenses list
+- `POST /api/personal-expenses` - Add a personal expense (fallbacks append payment method to notes)
+- `PUT /api/personal-expenses/:expenseId` - Edit personal expense details
+- `DELETE /api/personal-expenses/:expenseId` - Delete a personal expense
+- `GET /api/personal-expenses/summary` - Calculate current month personal spending totals
+- `GET /api/personal-expenses/analytics` - Group personal spending details by category
 
-### Personal expenses
-- `GET /api/personal-expenses`
-- `POST /api/personal-expenses`
-- `PUT /api/personal-expenses/:expenseId`
-- `DELETE /api/personal-expenses/:expenseId`
-- `GET /api/personal-expenses/summary`
-- `GET /api/personal-expenses/analytics`
+---
 
-## Setup Steps
+## Setup & Running Locally
 
-### 1. Open the project
-- Open the `SplitCampus` folder in VS Code
-
-### 2. Configure backend environment
-- Copy `backend/.env.example` to `backend/.env`
-- Update:
-  - `MONGODB_URI`
-  - `JWT_SECRET`
-
-### 3. Install backend dependencies
-```bash
-cd backend
-npm install
-```
-
-### 4. Start MongoDB
-- Make sure MongoDB is running locally
-- Example local connection string:
-  `mongodb://127.0.0.1:27017/splitcampus`
-
-### 5. Optional: seed sample data
-```bash
-cd backend
-npm run seed
-```
-
-### 6. Run the project
-```bash
-cd backend
-npm run dev
-```
-
-### 7. Open the app
-- Visit `http://localhost:<PORT>`
-- In the current local `.env`, the app runs at `http://localhost:5001`
-- The backend serves both the API and the frontend pages
-
-## Frontend Pages
-
-- `/` landing page
-- `/pages/login.html`
-- `/pages/signup.html`
-- `/pages/dashboard.html`
-- `/pages/profile.html`
-- `/pages/groups.html`
-- `/pages/single-group.html?group=<groupId>`
-- `/pages/add-expense.html?group=<groupId>`
-- `/pages/settlements.html?group=<groupId>`
-- `/pages/analytics.html?group=<groupId>`
-- `/personal-expenses/index.html`
-
-## Notes for Interview Explanation
-
-- The project keeps balance logic dynamic instead of storing computed balances in the database
-- Group members and expense splits use embedded arrays to keep the schema easier to understand
-- Activity tracking is kept simple and readable for dashboard use
-- The frontend is intentionally built without React to show strong vanilla JavaScript fundamentals
-- The backend serves the frontend statically, so the app is easy to run on a laptop
-
-## Future Improvements
-
-- Email-based invitation sending
-- Receipt OCR or text extraction
-- Pagination for large groups
-- Role promotion beyond a single admin flow
-- Export reports as PDF or CSV
-- Real-time updates with WebSockets
-
-## Sample Seed Credentials
-
-After running `npm run seed`:
-- `aarav@example.com` / `password123`
-- `riya@example.com` / `password123`
-- `kabir@example.com` / `password123`
-
-## Important Environment Variables
-
+### 1. Configure the Environment
+Copy `backend/.env.example` into a new file `backend/.env` and update the values:
 ```env
-PORT=5000
+PORT=5002
 NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/splitcampus
-JWT_SECRET=replace_with_a_long_random_secret
+JWT_SECRET=use_a_long_cryptographically_secure_random_string
 JWT_EXPIRES_IN=7d
 ```
 
-## Tech Notes
+### 2. Start the Backend Server
+```bash
+cd backend
+npm install
+npm run seed  # Optional: Seeds sample mock data (credentials below)
+npm run dev   # Starts backend on http://localhost:5002
+```
 
-- Frontend requests use the Fetch API
-- Auth state is stored in `localStorage`
-- Uploaded files are served from `/uploads`
-- Chart.js is loaded from CDN on the analytics page
+### 3. Start the Frontend Application
+In a separate terminal:
+```bash
+cd frontend
+npm install
+npm run dev   # Starts Vite Dev Server on http://localhost:3000
+```
+Visit `http://localhost:3000` to interact with the application. Vite automatically proxies API requests to the backend server.
+
+---
+
+## Notes for Interview Preparation
+
+- **Dynamic Balances**: The database does *not* store static, pre-computed group balances. Instead, balances and debt recommendations are calculated dynamically upon request. This prevents data inconsistency and race conditions.
+- **Cascade Deletions**: Deleting a squad removes its expenses, settlements, and activities in a single transaction-like batch to avoid dangling foreign keys (database orphans) in MongoDB.
+- **Proxy Configuration**: The frontend React app runs on port `3000` and uses Vite's proxy configs to map `/api` and `/uploads` routes to port `5002` transparently, bypassing CORS issues without messy origin header configurations in production.
+- **Custom CSS Design Tokens**: Replaced standard frameworks with customized CSS custom properties (`--bg`, `--surface`, `--primary`, `--border`) to provide a consistent, responsive, high-fidelity Zinc UI layout from scratch.
+
+---
+
+## Seed Credentials
+After running `npm run seed`, you can log in using these mock accounts (Password: `password123`):
+- `aarav@example.com`
+- `riya@example.com`
+- `kabir@example.com`
