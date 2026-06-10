@@ -14,8 +14,10 @@ router.route("/").get(protect, groupController.getGroups).post(
 );
 
 router.post("/join", protect, groupController.joinGroupByInviteCode);
-router.get("/:groupId", protect, groupController.getGroupById);
-router.put("/:groupId", protect, groupUpload.single("image"), groupController.updateGroup);
+router.route("/:groupId")
+  .get(protect, groupController.getGroupById)
+  .put(protect, groupUpload.single("image"), groupController.updateGroup)
+  .delete(protect, groupController.deleteGroup);
 router.get("/:groupId/dashboard", protect, groupController.getGroupDashboard);
 router.get("/:groupId/balances", protect, groupController.getGroupBalances);
 router.post("/:groupId/members", protect, groupController.addMemberByEmail);

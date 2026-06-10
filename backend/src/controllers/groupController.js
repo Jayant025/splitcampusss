@@ -2,6 +2,7 @@ const Activity = require("../models/Activity");
 const Expense = require("../models/Expense");
 const Group = require("../models/Group");
 const User = require("../models/User");
+const Settlement = require("../models/Settlement");
 const { buildFileUrl } = require("../middleware/uploadMiddleware");
 const { logActivity } = require("../services/activityService");
 const { calculateGroupBalances } = require("../services/balanceService");
@@ -465,9 +466,32 @@ const getGroupBalances = asyncHandler(async (req, res) => {
   });
 });
 
+const deleteGroup = asyncHandler(async (req, res) => {
+  const group = await ensureGroupAdmin(req.params.groupId, req.user._id, {
+    populateMembers: false
+  });
+
+  const groupId = group._id;
+
+  await Promise.all([
+    Expense.deleteMany({ group: groupId }),
+    Settlement.deleteMany({ group: groupId }),
+    Activity.deleteMany({ group: groupId }),
+    Group.findByIdAndDelete(groupId)
+  ]);
+
+  sendSuccess(res, {
+    message: "Group and all its associated expenses, settlements, and activities deleted successfully.",
+    data: {
+      groupId
+    }
+  });
+});
+
 module.exports = {
   addMemberByEmail,
   createGroup,
+  deleteGroup,
   getGroupBalances,
   getGroupById,
   getGroupDashboard,

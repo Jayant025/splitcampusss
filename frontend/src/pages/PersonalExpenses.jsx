@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { apiClient } from "../api/client";
 import { AppLayout } from "../components/AppLayout";
+import { TransactionDetailModal } from "../components/TransactionDetailModal";
+
 import { formatCurrency, formatDate, capitalize } from "../utils/helpers";
 import { useTheme } from "../context/ThemeContext";
 import Chart from "chart.js/auto";
@@ -15,6 +17,8 @@ export const PersonalExpenses = () => {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedDetailExpense, setSelectedDetailExpense] = useState(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // Input Filters
   const [filterMonth, setFilterMonth] = useState(() => {
@@ -31,6 +35,7 @@ export const PersonalExpenses = () => {
   const [category, setCategory] = useState("other");
   const [date, setDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
 
@@ -165,12 +170,13 @@ export const PersonalExpenses = () => {
 
     try {
       setFormSubmitting(true);
+      const methodLabel = paymentMethod === "upi" ? "UPI" : paymentMethod === "card" ? "Card" : "Cash";
       const payload = {
         title: title.trim(),
         amount: amt,
         category,
         date,
-        note: note.trim()
+        note: note.trim() ? `${note.trim()} (Paid via ${methodLabel})` : `Paid via ${methodLabel}`
       };
 
       if (editingId) {
@@ -194,7 +200,25 @@ export const PersonalExpenses = () => {
     setAmount(expense.amount.toString());
     setCategory(expense.category);
     setDate(expense.date.split("T")[0]);
-    setNote(expense.note || "");
+    
+    let extractedMethod = "cash";
+    let cleanedNote = expense.note || "";
+    if (expense.note && expense.note.includes(" (Paid via ")) {
+      const parts = expense.note.split(" (Paid via ");
+      cleanedNote = parts[0];
+      const method = parts[1].replace(")", "").toLowerCase();
+      if (["cash", "upi", "card"].includes(method)) {
+        extractedMethod = method;
+      }
+    } else if (expense.note && expense.note.startsWith("Paid via ")) {
+      const method = expense.note.replace("Paid via ", "").toLowerCase();
+      if (["cash", "upi", "card"].includes(method)) {
+        extractedMethod = method;
+        cleanedNote = "";
+      }
+    }
+    setNote(cleanedNote);
+    setPaymentMethod(extractedMethod);
     setFormError("");
 
     window.scrollTo({
@@ -225,6 +249,7 @@ export const PersonalExpenses = () => {
     setCategory("other");
     setDate(new Date().toISOString().split("T")[0]);
     setNote("");
+    setPaymentMethod("cash");
     setFormError("");
   };
 
@@ -289,6 +314,8 @@ export const PersonalExpenses = () => {
                 </h3>
                 <form onSubmit={handleFormSubmit} className="stack-md">
                   {formError && <div className="badge badge-danger btn-block">{formError}</div>}
+                  
+                  {/* Title */}
                   <div>
                     <label htmlFor="pExpTitle">Title</label>
                     <input
@@ -301,7 +328,8 @@ export const PersonalExpenses = () => {
                     />
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "0.5rem" }}>
+                  {/* Amount | Date */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "0.75rem" }}>
                     <div>
                       <label htmlFor="pExpAmount">Amount (₹)</label>
                       <input
@@ -326,20 +354,32 @@ export const PersonalExpenses = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="pExpCategory">Category</label>
-                    <select id="pExpCategory" value={category} onChange={(e) => setCategory(e.target.value)}>
-                      <option value="food">Food</option>
-                      <option value="rent">Rent</option>
-                      <option value="cabs">Cabs</option>
-                      <option value="groceries">Groceries</option>
-                      <option value="gas">Gas</option>
-                      <option value="snacks">Snacks</option>
-                      <option value="entertainment">Entertainment</option>
-                      <option value="other">Other</option>
-                    </select>
+                  {/* Category | Payment Method */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                    <div>
+                      <label htmlFor="pExpCategory">Category</label>
+                      <select id="pExpCategory" value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="food">Food</option>
+                        <option value="rent">Rent</option>
+                        <option value="cabs">Cabs</option>
+                        <option value="groceries">Groceries</option>
+                        <option value="gas">Gas</option>
+                        <option value="snacks">Snacks</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="pExpPaymentMethod">Payment Method</label>
+                      <select id="pExpPaymentMethod" value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+                        <option value="cash">Cash</option>
+                        <option value="upi">UPI</option>
+                        <option value="card">Debit/Credit Card</option>
+                      </select>
+                    </div>
                   </div>
 
+                  {/* Private Note */}
                   <div>
                     <label htmlFor="pExpNote">Private Note</label>
                     <input
@@ -351,7 +391,8 @@ export const PersonalExpenses = () => {
                     />
                   </div>
 
-                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                  {/* Buttons */}
+                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem" }}>
                     <button type="submit" className="btn btn-primary btn-block" disabled={formSubmitting}>
                       {formSubmitting ? "Saving..." : editingId ? "Save Changes" : "Record Expense"}
                     </button>
@@ -440,7 +481,15 @@ export const PersonalExpenses = () => {
                 ) : (
                   <div className="expense-list">
                     {history.map((expense) => (
-                      <article className="expense-item card" key={expense._id} style={{ padding: "1rem", display: "grid", gap: "0.4rem" }}>
+                      <article 
+                        className="expense-item card" 
+                        key={expense._id} 
+                        style={{ padding: "1rem", display: "grid", gap: "0.4rem", cursor: "pointer" }}
+                        onClick={() => {
+                          setSelectedDetailExpense(expense);
+                          setIsDetailOpen(true);
+                        }}
+                      >
                         <div className="item-head">
                           <div>
                             <strong style={{ fontSize: "1.1rem", color: "var(--text-strong)" }}>{expense.title}</strong>
@@ -459,14 +508,20 @@ export const PersonalExpenses = () => {
                             <button
                               className="btn btn-secondary"
                               style={{ minHeight: "auto", padding: "0.25rem 0.5rem", fontSize: "0.8rem", borderRadius: "6px" }}
-                              onClick={() => handleEditClick(expense)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditClick(expense);
+                              }}
                             >
                               Edit
                             </button>
                             <button
                               className="btn btn-danger"
                               style={{ minHeight: "auto", padding: "0.25rem 0.5rem", fontSize: "0.8rem", borderRadius: "6px" }}
-                              onClick={() => handleDeleteClick(expense._id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteClick(expense._id);
+                              }}
                             >
                               Delete
                             </button>
@@ -505,6 +560,15 @@ export const PersonalExpenses = () => {
           </section>
         </div>
       )}
+
+      {/* Transaction Detail Modal */}
+      <TransactionDetailModal
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        expense={selectedDetailExpense}
+        onEdit={handleEditClick}
+        onDelete={handleDeleteClick}
+      />
     </AppLayout>
   );
 };

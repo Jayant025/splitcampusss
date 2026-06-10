@@ -135,6 +135,11 @@ export const SingleGroup = () => {
   useEffect(() => {
     if (groupData) {
       fetchExpenses();
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("add") === "true") {
+        openExpenseModal();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
     }
   }, [groupData, search, filterCategory, filterMember, sortOrder]);
 
@@ -190,6 +195,22 @@ export const SingleGroup = () => {
       navigate("/groups");
     } catch (err) {
       alert(err.message || "Failed to leave group.");
+    }
+  };
+
+  // Delete Group
+  const handleDeleteGroup = async () => {
+    const confirmed = window.confirm("Are you sure you want to permanently delete this squad? This will erase all history, bills, settlements, and member balances. This action cannot be undone! ⚠️");
+    if (!confirmed) return;
+
+    const doubleConfirmed = window.confirm("Are you absolutely sure? Click OK to confirm permanent deletion of all data.");
+    if (!doubleConfirmed) return;
+
+    try {
+      await apiClient.delete(`/groups/${groupId}`);
+      navigate("/groups");
+    } catch (err) {
+      alert(err.message || "Failed to delete group.");
     }
   };
 
@@ -771,9 +792,14 @@ export const SingleGroup = () => {
                 <span className="badge badge-warning" style={{ fontSize: "0.85rem", padding: "0.45rem 0.8rem" }}>
                   Invite Code: {groupData.group.inviteCode}
                 </span>
-                <button className="btn btn-danger" onClick={handleLeaveGroup} style={{ minHeight: "auto", padding: "0.45rem 1rem" }}>
+                <button className="btn btn-danger" onClick={handleLeaveGroup} style={{ minHeight: "auto", padding: "0.45rem 1rem", display: "flex", gap: "0.5rem", alignItems: "center" }}>
                   <LogOut size={16} /> Leave Group
                 </button>
+                {isAdmin() && (
+                  <button className="btn btn-danger" onClick={handleDeleteGroup} style={{ minHeight: "auto", padding: "0.45rem 1rem", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                    <Trash2 size={16} /> Delete Squad
+                  </button>
+                )}
               </div>
             </div>
 

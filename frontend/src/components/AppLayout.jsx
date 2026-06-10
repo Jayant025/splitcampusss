@@ -5,15 +5,20 @@ export const AppLayout = ({ children, title, subtitle, actions }) => {
   return (
     <div className="app-shell">
       <Sidebar />
-      <main className="app-body stack-lg" style={{ minWidth: 0 }}>
-        <div className="topbar">
-          <div>
-            <h1>{title}</h1>
-            {subtitle && <p>{subtitle}</p>}
+      <main className="app-body" style={{ minWidth: 0, display: "flex", flexDirection: "column", flex: 1 }}>
+        <header className="top-navigation-bar">
+          <div className="topbar-left">
+            <span className="topbar-title">{title}</span>
           </div>
-          {actions && <div className="topbar-actions">{actions}</div>}
-        </div>
-        <div className="page-content" style={{ animation: "modalSlideUp 0.4s ease" }}>
+          {actions && <div className="topbar-actions-panel">{actions}</div>}
+        </header>
+        
+        <div className="page-content">
+          {subtitle && (
+            <div className="page-header-desc">
+              <p>{subtitle}</p>
+            </div>
+          )}
           {children}
         </div>
       </main>

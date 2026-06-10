@@ -43,6 +43,11 @@ export const Groups = () => {
 
   useEffect(() => {
     loadGroups();
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("create") === "true") {
+      setCreateOpen(true);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   }, []);
 
   const handleCreateGroup = async (e) => {
@@ -93,53 +98,69 @@ export const Groups = () => {
   const renderGroupsList = () => {
     if (!groups.length) {
       return (
-        <article className="card stack-md" style={{ textAlign: "center", padding: "3rem" }}>
-          <h3>Squadless! 🎒</h3>
-          <p className="muted-text">
-            Create your own shared expense group or paste an invite code to join one.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "1rem" }}>
+        <div className="empty-state" style={{ maxWidth: "560px", margin: "2rem auto" }}>
+          <div className="empty-state-icon">
+            <Users size={20} />
+          </div>
+          <h3>No active squads yet</h3>
+          <p>Create your own shared expense group or paste an invite code to join one.</p>
+          <div className="empty-state-actions">
             <button className="btn btn-primary" onClick={() => setCreateOpen(true)}>
-              <Plus size={16} /> Create Group
+              <Plus size={16} /> Create Squad
             </button>
             <button className="btn btn-secondary" onClick={() => setJoinOpen(true)}>
-              <UserPlus size={16} /> Join Group
+              <UserPlus size={16} /> Join Squad
             </button>
           </div>
-        </article>
+        </div>
       );
     }
 
     return (
-      <div className="group-list">
+      <div className="group-grid">
         {groups.map((group) => (
-          <article className="group-item card" key={group._id} style={{ display: "grid", gap: "1rem", background: "var(--surface)" }}>
-            <div className="item-head">
+          <article 
+            className="card group-card animate-in fade-in slide-in-from-bottom-2 duration-300" 
+            key={group._id}
+            onClick={() => navigate(`/groups/${group._id}`)}
+          >
+            <div className="group-card-header">
               <div>
-                <strong style={{ fontSize: "1.25rem", color: "var(--text-strong)" }}>{group.name}</strong>
-                <div className="item-meta" style={{ marginTop: "0.2rem" }}>
-                  <span className="eyebrow" style={{ padding: "0.15rem 0.5rem", fontSize: "0.75rem", textTransform: "capitalize" }}>{group.type}</span>
-                  <span style={{ marginLeft: "0.5rem" }}>Invite Code: <strong>{group.inviteCode}</strong></span>
-                </div>
+                <span className="group-card-type">{group.type}</span>
+                <h3 className="group-card-name">{group.name}</h3>
               </div>
-              <span className="badge" style={{ background: "var(--primary-soft)", color: "var(--primary)" }}>
-                {group.currentUserRole}
-              </span>
+              <span className="group-card-role-badge">{group.currentUserRole}</span>
             </div>
 
-            <p style={{ margin: 0, color: "var(--text-muted)", fontSize: "0.95rem" }}>
+            <p className="group-card-description">
               {group.description || "No description added yet."}
             </p>
 
-            <div className="item-meta" style={{ borderTop: "1px solid var(--border-soft)", paddingTop: "0.8rem", display: "flex", gap: "1.5rem" }}>
-              <span>Members: <strong>{group.memberCount}</strong></span>
-              <span>Expenses: <strong>{group.expenseCount}</strong></span>
-              <span>Total spent: <strong>{formatCurrency(group.totalExpenses)}</strong></span>
+            <div className="group-card-metrics">
+              <div className="metric-item">
+                <span className="metric-label">Members</span>
+                <span className="metric-value">{group.memberCount}</span>
+              </div>
+              <div className="metric-item">
+                <span className="metric-label">Spent</span>
+                <span className="metric-value">{formatCurrency(group.totalExpenses)}</span>
+              </div>
+              <div className="metric-item">
+                <span className="metric-label">Invite Code</span>
+                <span className="metric-value code">{group.inviteCode}</span>
+              </div>
             </div>
 
-            <div className="item-actions" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span className="item-meta">Updated {formatDate(group.updatedAt)}</span>
-              <button className="btn btn-primary" onClick={() => navigate(`/groups/${group._id}`)}>
+            <div className="group-card-footer">
+              <span className="group-card-updated">Updated {formatDate(group.updatedAt)}</span>
+              <button 
+                className="btn btn-secondary btn-sm" 
+                style={{ minHeight: "auto", padding: "0.45rem 1rem", fontSize: "0.85rem" }}
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  navigate(`/groups/${group._id}`); 
+                }}
+              >
                 Open Squad
               </button>
             </div>
