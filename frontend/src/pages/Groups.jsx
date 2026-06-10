@@ -4,7 +4,7 @@ import { apiClient } from "../api/client";
 import { AppLayout } from "../components/AppLayout";
 import { Modal } from "../components/Modal";
 import { formatCurrency, formatDate } from "../utils/helpers";
-import { Plus, UserPlus, FileText, Image } from "lucide-react";
+import { Plus, UserPlus, FileText, Image, Users } from "lucide-react";
 
 export const Groups = () => {
   const [groups, setGroups] = useState([]);
