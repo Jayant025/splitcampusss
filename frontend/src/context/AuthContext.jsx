@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
+const hello = 20;
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
