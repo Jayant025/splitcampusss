@@ -11,11 +11,20 @@ export const TransactionDetailModal = ({ isOpen, onClose, expense, onEdit, onDel
     const themes = {
       food: { icon: "restaurant", color: "var(--success)" },
       rent: { icon: "home", color: "var(--accent)" },
-      cabs: { icon: "directions_car", color: "var(--secondary)" },
+      wifi: { icon: "wifi", color: "var(--primary)" },
+      electricity: { icon: "bolt", color: "var(--warning)" },
+      grocery: { icon: "shopping_basket", color: "var(--success)" },
       groceries: { icon: "shopping_basket", color: "var(--success)" },
-      gas: { icon: "local_gas_station", color: "var(--warning)" },
-      snacks: { icon: "cookie", color: "var(--success)" },
+      travel: { icon: "flight", color: "var(--secondary)" },
+      transport: { icon: "directions_car", color: "var(--secondary)" },
+      cabs: { icon: "directions_car", color: "var(--secondary)" },
+      shopping: { icon: "shopping_bag", color: "var(--primary)" },
+      bills: { icon: "receipt", color: "var(--warning)" },
+      health: { icon: "heart", color: "var(--danger)" },
+      education: { icon: "book-open", color: "var(--primary)" },
       entertainment: { icon: "theater_comedy", color: "var(--primary)" },
+      miscellaneous: { icon: "stars", color: "var(--primary)" },
+      other: { icon: "stars", color: "var(--primary)" }
     };
     return themes[category?.toLowerCase()] || defaultTheme;
   };

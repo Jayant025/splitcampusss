@@ -32,7 +32,7 @@ export const PersonalExpenses = () => {
   const [editingId, setEditingId] = useState(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("other");
+  const [category, setCategory] = useState("food");
   const [date, setDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [note, setNote] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -200,7 +200,7 @@ export const PersonalExpenses = () => {
     setAmount(expense.amount.toString());
     setCategory(expense.category);
     setDate(expense.date.split("T")[0]);
-    
+
     let extractedMethod = "cash";
     let cleanedNote = expense.note || "";
     if (expense.note && expense.note.includes(" (Paid via ")) {
@@ -246,7 +246,7 @@ export const PersonalExpenses = () => {
     setEditingId(null);
     setTitle("");
     setAmount("");
-    setCategory("other");
+    setCategory("food");
     setDate(new Date().toISOString().split("T")[0]);
     setNote("");
     setPaymentMethod("cash");
@@ -314,7 +314,7 @@ export const PersonalExpenses = () => {
                 </h3>
                 <form onSubmit={handleFormSubmit} className="stack-md">
                   {formError && <div className="badge badge-danger btn-block">{formError}</div>}
-                  
+
                   {/* Title */}
                   <div>
                     <label htmlFor="pExpTitle">Title</label>
@@ -360,13 +360,13 @@ export const PersonalExpenses = () => {
                       <label htmlFor="pExpCategory">Category</label>
                       <select id="pExpCategory" value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option value="food">Food</option>
-                        <option value="rent">Rent</option>
-                        <option value="cabs">Cabs</option>
-                        <option value="groceries">Groceries</option>
-                        <option value="gas">Gas</option>
-                        <option value="snacks">Snacks</option>
+                        <option value="transport">Transport</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="bills">Bills</option>
                         <option value="entertainment">Entertainment</option>
-                        <option value="other">Other</option>
+                        <option value="health">Health</option>
+                        <option value="education">Education</option>
+                        <option value="miscellaneous">Other</option>
                       </select>
                     </div>
                     <div>
@@ -433,13 +433,13 @@ export const PersonalExpenses = () => {
                     >
                       <option value="">All Categories</option>
                       <option value="food">Food</option>
-                      <option value="rent">Rent</option>
-                      <option value="cabs">Cabs</option>
-                      <option value="groceries">Groceries</option>
-                      <option value="gas">Gas</option>
-                      <option value="snacks">Snacks</option>
+                      <option value="transport">Transport</option>
+                      <option value="shopping">Shopping</option>
+                      <option value="bills">Bills</option>
                       <option value="entertainment">Entertainment</option>
-                      <option value="other">Other</option>
+                      <option value="health">Health</option>
+                      <option value="education">Education</option>
+                      <option value="miscellaneous">Other</option>
                     </select>
                   </div>
                 </div>
@@ -481,9 +481,9 @@ export const PersonalExpenses = () => {
                 ) : (
                   <div className="expense-list">
                     {history.map((expense) => (
-                      <article 
-                        className="expense-item card" 
-                        key={expense._id} 
+                      <article
+                        className="expense-item card"
+                        key={expense._id}
                         style={{ padding: "1rem", display: "grid", gap: "0.4rem", cursor: "pointer" }}
                         onClick={() => {
                           setSelectedDetailExpense(expense);

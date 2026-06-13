@@ -48,7 +48,7 @@ export const SingleGroup = () => {
   const [expAmount, setExpAmount] = useState("");
   const [expDate, setExpDate] = useState(() => new Date().toISOString().split("T")[0]);
   const [expDesc, setExpDesc] = useState("");
-  const [expCategory, setExpCategory] = useState("other");
+  const [expCategory, setExpCategory] = useState("food");
   const [expCustomCategory, setExpCustomCategory] = useState("");
   const [expPaidBy, setExpPaidBy] = useState("");
   const [expSplitType, setExpSplitType] = useState("equal");
@@ -267,7 +267,7 @@ export const SingleGroup = () => {
       setExpAmount("");
       setExpDate(new Date().toISOString().split("T")[0]);
       setExpDesc("");
-      setExpCategory("other");
+      setExpCategory("food");
       setExpCustomCategory("");
       setExpPaidBy(currentUser?._id || "");
       setExpSplitType("equal");
@@ -588,12 +588,11 @@ export const SingleGroup = () => {
                   <option value="">All Categories</option>
                   <option value="food">Food</option>
                   <option value="rent">Rent</option>
-                  <option value="cabs">Cabs</option>
-                  <option value="groceries">Groceries</option>
-                  <option value="gas">Gas</option>
-                  <option value="snacks">Snacks</option>
-                  <option value="entertainment">Entertainment</option>
-                  <option value="other">Other</option>
+                  <option value="wifi">Wi-Fi</option>
+                  <option value="electricity">Electricity</option>
+                  <option value="grocery">Grocery</option>
+                  <option value="travel">Travel</option>
+                  <option value="miscellaneous">Other</option>
                 </select>
 
                 <select
@@ -900,12 +899,11 @@ export const SingleGroup = () => {
               <select id="expCategory" value={expCategory} onChange={(e) => setExpCategory(e.target.value)}>
                 <option value="food">Food</option>
                 <option value="rent">Rent</option>
-                <option value="cabs">Cabs</option>
-                <option value="groceries">Groceries</option>
-                <option value="gas">Gas</option>
-                <option value="snacks">Snacks</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="other">Other</option>
+                <option value="wifi">Wi-Fi</option>
+                <option value="electricity">Electricity</option>
+                <option value="grocery">Grocery</option>
+                <option value="travel">Travel</option>
+                <option value="miscellaneous">Other</option>
                 <option value="custom">Custom...</option>
               </select>
             </div>
